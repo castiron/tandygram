@@ -72,6 +72,7 @@ func GetAllComposites() []Composite {
 	collection.ForEachDoc(func(id int, docContent []byte) (willMoveOn bool) {
 		composite := new(Composite)
 		json.Unmarshal(docContent, &composite)
+		composite.Id = id
 		composites = append(composites, *composite)
 		return true
 	})
