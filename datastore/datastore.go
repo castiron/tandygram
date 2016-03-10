@@ -9,13 +9,6 @@ import (
 	"github.com/fatih/structs"
 )
 
-const (
-	Triangle int = iota
-	Square
-	Rectangle
-	Circle
-)
-
 type Color struct {
 	R int `json:"r"`
 	G int `json:"g"`
@@ -69,7 +62,7 @@ func GetAllComposites() []Composite {
 	collection := dbConn.Use("Composites")
 	var composites []Composite
 	
-	collection.ForEachDoc(func(id int, docContent []byte) (willMoveOn bool) {
+	collection.ForEachDoc(func(id int, docContent []byte) bool {
 		composite := new(Composite)
 		json.Unmarshal(docContent, &composite)
 		composite.Id = id
@@ -80,10 +73,15 @@ func GetAllComposites() []Composite {
 	return composites
 }
 
+func DeleteComposite(id int) error {
+	collection := dbConn.Use("Composites")
+	return collection.Delete(id)
+}
+
 var dbConn *db.DB
 var err error
 
-func Initialize() {
+func init() {
 	dbDir := "/tmp/tandygram-tiedot"
 	log.Println("Spinning up tiedot database at", dbDir)
 
