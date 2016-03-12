@@ -6,11 +6,12 @@ import (
 	"github.com/castiron/tandygram-backend/datastore"
 	"encoding/json"
 	"strconv"
-"strings"
+	"strings"
 )
 
 func Serve() {
 	http.HandleFunc("/api/composites/", handleComposites)
+	http.HandleFunc("/api/composites", handleComposites)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 

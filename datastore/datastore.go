@@ -16,11 +16,12 @@ type Color struct {
 }
 
 type Member struct {
-	Shape int `json:"shape"`
-	X int `json:"x"`
-	Y int `json:"y"`
-	Rotation float64 `json:"rotation"`
+	Id int `json:"id"`
+	Type string `json:"type"`
+	Degrees int `json:"degrees"`
 	Color Color `json:"color"`
+	E float64 `json:"e"`
+	F float64 `json:"f"`
 }
 
 type Composite struct {
