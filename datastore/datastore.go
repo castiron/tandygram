@@ -19,6 +19,7 @@ type Member struct {
 	Id int `json:"id"`
 	Type string `json:"type"`
 	Degrees int `json:"degrees"`
+	Size int `json:"size"`
 	Color Color `json:"color"`
 	E float64 `json:"e"`
 	F float64 `json:"f"`
