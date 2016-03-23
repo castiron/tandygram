@@ -7,12 +7,19 @@ import (
 	"encoding/json"
 	"strconv"
 	"strings"
+	"os"
 )
 
 func Serve() {
-	http.HandleFunc("/api/composites/", handleComposites)
-	http.HandleFunc("/api/composites", handleComposites)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	fpath := os.Getenv("TANDY_PUBLIC_ROOT")
+	if fpath == "" {
+		log.Fatal("Please specify location of public root in TANDY_PUBLIC_ROOT environment variable")
+	} else {
+		http.HandleFunc("/api/composites/", handleComposites)
+		http.HandleFunc("/api/composites", handleComposites)
+		http.Handle("/", http.FileServer(http.Dir(fpath)))
+		log.Fatal(http.ListenAndServe(":8080", nil))
+	}
 }
 
 func handleComposites(w http.ResponseWriter, r *http.Request) {

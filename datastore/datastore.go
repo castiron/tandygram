@@ -7,6 +7,7 @@ import (
 	"io"
 	"encoding/json"
 	"github.com/fatih/structs"
+	"os"
 )
 
 type Color struct {
@@ -84,31 +85,35 @@ var dbConn *db.DB
 var err error
 
 func init() {
-	dbDir := "/tmp/tandygram-tiedot"
-	log.Println("Spinning up tiedot database at", dbDir)
+	dbDir := os.Getenv("TANDY_TIEDOT_DIR")
+	if dbDir == "" {
+		log.Fatal("Please specify location of database in TANDY_TIEDOT_FOLDER environment variable")
+	} else {
+		log.Println("Spinning up tiedot database at", dbDir)
 
-	dbConn, err = db.OpenDB(dbDir)
-	if err != nil {
-		panic(err)
-	}
-
-	setupCollections := []string{"Composites"}
-
-	// Create collections that don't exist yet
-	existingCollections := dbConn.AllCols()
-
-	for _, collection := range(setupCollections) {
-		log.Println("Checking for collection", collection, "...")
-		if stringInSlice(collection, existingCollections) {
-			log.Println("...exists")
-		} else {	
-			log.Println("...creating it")
-			if err := dbConn.Create(collection); err != nil {
-				panic(err)
-			}		
+		dbConn, err = db.OpenDB(dbDir)
+		if err != nil {
+			panic(err)
 		}
+
+		setupCollections := []string{"Composites"}
+
+		// Create collections that don't exist yet
+		existingCollections := dbConn.AllCols()
+
+		for _, collection := range (setupCollections) {
+			log.Println("Checking for collection", collection, "...")
+			if stringInSlice(collection, existingCollections) {
+				log.Println("...exists")
+			} else {
+				log.Println("...creating it")
+				if err := dbConn.Create(collection); err != nil {
+					panic(err)
+				}
+			}
+		}
+		// TODO: could provide some statup stats -- number of records in table, or something
 	}
-	// TODO: could provide some statup stats -- number of records in table, or something
 }
 
 // stringInSlice checks for presence of a string in a slice
