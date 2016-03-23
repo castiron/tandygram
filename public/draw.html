@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>
+            Tandygram!
+        </title>
+
+        <link rel="stylesheet" href="styles.css"/>
+        <!-- multi-touch event firing helper for testing on desktop -->
+        <script src="lib/touch-emulator.js"></script>
+        <script> TouchEmulator(); </script>
+    </head>
+
+    <body>
+        <svg id="tandy-svg" class="tandy-draw"></svg>
+
+        <br/>
+        <button data-button-save>Save</button>
+
+        <textarea id="jsonOut" style="display: block; width: 500px; height: 200px; margin-top: 20px;" placeholder="Shape output will go here"></textarea>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.4.1/snap.svg-min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.6/hammer.min.js"></script>
+        <script type="text/javascript" src="lib/random-color.js"></script>
+        <script type="text/javascript" src="shape-generators.js"></script>
+        <script type="text/javascript" src="draw.js"></script>
+    </body>
+</html>

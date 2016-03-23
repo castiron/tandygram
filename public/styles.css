@@ -1,0 +1,19 @@
+/*
+  Initial styles for Tandygram drawing app
+  By Cast Iron Coding
+
+  Plain CSS, because there isn't much here.
+*/
+
+
+/* Reset Styles */
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+.tandy-draw {
+  width: 100vw;
+  min-height: 768px;
+  /* In production, this will be 100vh as well */
+}
