@@ -30,6 +30,8 @@ colors = randomColor({
 });
 
 var observeActive = function(activeId){
+  activeShape = undefined;
+
   shapes.forEach(function(shape) {
     if (shape.id === activeId) {
       shape.attr({
@@ -49,7 +51,7 @@ var observeActive = function(activeId){
         strokeWidth: 0
       })
     }
-  })
+  });
 };
 
 var rotate = function(paper, element, degrees) {
@@ -59,6 +61,7 @@ var rotate = function(paper, element, degrees) {
 };
 
 var s = Snap("#tandy-svg");
+
 var rightTriA = rightTriangle(s, 0, 0, baseSize);
 var rightTriB = rightTriangle(s, 0, 0, baseSize);
 var rightTriC = rightTriangle(s, 0, 0, baseSize * (Math.sqrt(2) / 2));
@@ -77,12 +80,24 @@ shapes = [
     parallelogramA
 ];
 
+var dragMove = function(dx,dy) {
+  if(!rotating) {
+    this.attr({
+      transform: this.data('origTransform') + (this.data('origTransform') ? "T" : "t") + [dx, dy]
+    });
+  }
+};
+
+var dragStart = function() {
+  this.data('origTransform', this.transform().local );
+};
+
 shapes.forEach(function(shape, index) {
   shape.id = index;
   shape.attr({
     fill: colors[index]
   });
-  shape.drag();
+  shape.drag(dragMove, dragStart);
 });
 
 //hammer touch events for rotating the shapes on mobile wo buttons
@@ -100,8 +115,8 @@ mc.on("rotateend", function(){
 
 function onRotate(event) {
   console.log(lastRotation, deltaRotation);
-  if (rotating) {
-    var deltaRotation = Math.abs(event.rotation - lastRotation)
+  if (rotating && activeShape) {
+    var deltaRotation = Math.abs(event.rotation - lastRotation);
     if (event.rotation > lastRotation) {
       rotate(s, activeShape, deltaRotation);
     } else {

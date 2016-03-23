@@ -28,6 +28,11 @@ var rightTriangle = function(paper, startX, startY, hypotenuse, id) {
     tri.active = true;
     observeActive(tri.id);
   });
+
+  tri.mouseup(function(event){
+    tri.active = false;
+    observeActive(null);
+  });
   return tri;
 };
 
@@ -57,6 +62,11 @@ var square = function(paper, startX, startY, width, id) {
     sq.active = true;
     observeActive(sq.id);
   });
+
+  sq.mouseup(function(event){
+    sq.active = false;
+    observeActive(null);
+  });
   return sq;
 };
 
@@ -85,6 +95,11 @@ var parallelogram = function(paper, startX, startY, base, id) {
   pg.mousedown(function(){
     pg.active = true;
     observeActive(pg.id);
+  });
+
+  pg.mouseup(function(event){
+    pg.active = false;
+    observeActive(null);
   });
   return pg;
 };
