@@ -15,18 +15,27 @@ func Serve() {
 	fpath := os.Getenv("TANDY_PUBLIC_ROOT")
 	if fpath == "" {
 		log.Fatal("Please specify location of public root in TANDY_PUBLIC_ROOT environment variable")
-	} else {
-		http.HandleFunc("/api/composites/", handleComposites)
-		http.HandleFunc("/api/composites", handleComposites)
-		http.Handle("/", handlers.CombinedLoggingHandler(os.Stdout, http.FileServer(http.Dir(fpath))))
-
-		log.Fatal(http.ListenAndServe(":8080", nil))
 	}
+
+	var portInt int;
+	var err error;
+	if portInt, err = strconv.Atoi(os.Getenv("TANDY_HTTP_PORT")); err != nil {
+		log.Println("Unable to parse TANDY_HTTP_PORT environment variable, defaulting to 8080")
+		portInt = 8080
+	}
+	port := strconv.Itoa(portInt)
+
+	log.Println("Starting API and file server on port " + port)
+	log.Println("Public folder is " + fpath)
+	http.Handle("/api/composites/", handlers.CombinedLoggingHandler(os.Stdout, apiHandler{}))
+	http.Handle("/api/composites", handlers.CombinedLoggingHandler(os.Stdout, apiHandler{}))
+	http.Handle("/", handlers.CombinedLoggingHandler(os.Stdout, http.FileServer(http.Dir(fpath))))
+	log.Fatal(http.ListenAndServe(":" + port, nil))
 }
 
-func handleComposites(w http.ResponseWriter, r *http.Request) {
-	log.Printf("%s %s %s", r.RemoteAddr, r.Method, r.URL)
+type apiHandler struct {}
 
+func (h apiHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if origin := r.Header.Get("Origin"); origin != "" {
 		w.Header().Set("Access-Control-Allow-Origin", origin)
 		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
