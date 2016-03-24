@@ -87,7 +87,7 @@ var err error
 func init() {
 	dbDir := os.Getenv("TANDY_TIEDOT_DIR")
 	if dbDir == "" {
-		log.Fatal("Please specify location of database in TANDY_TIEDOT_FOLDER environment variable")
+		log.Fatal("Please specify location of database in TANDY_TIEDOT_DIR environment variable")
 	} else {
 		log.Println("Spinning up tiedot database at", dbDir)
 

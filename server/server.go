@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"strings"
 	"os"
+	"github.com/gorilla/handlers"
 )
 
 func Serve() {
@@ -17,7 +18,8 @@ func Serve() {
 	} else {
 		http.HandleFunc("/api/composites/", handleComposites)
 		http.HandleFunc("/api/composites", handleComposites)
-		http.Handle("/", http.FileServer(http.Dir(fpath)))
+		http.Handle("/", handlers.CombinedLoggingHandler(os.Stdout, http.FileServer(http.Dir(fpath))))
+
 		log.Fatal(http.ListenAndServe(":8080", nil))
 	}
 }
