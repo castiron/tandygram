@@ -185,36 +185,33 @@ var sampleRequest = {"members":
   "name": "Lucas"
 };
 
-window.addEventListener('keyup', function(event) {
-  if (event.keyCode == 71) {
-    var shapeObjects = {
-      name: prompt(),
-      client: "Mac",
-      members: []
+var record = function() {
+  var shapeObjects = {
+    name: prompt('Would you like to name or note your Tandygram?'),
+    members: [],
+    layers: []
+  };
+
+  shapes.forEach(function(shape){
+    var shapeJson = {
+      id: shape.id,
+      type: shape.type,
+      size: shape.size,
+      color: shape.attr('fill'),
+      degrees: shape.degrees,
+      e: shape.matrix.e,
+      f: shape.matrix.f
     };
 
-    shapes.forEach(function(shape){
-      var shapeJson = {
-        id: shape.id,
-        type: shape.type,
-        size: shape.size,
-        color: shape.attr('fill'),
-        degrees: shape.degrees,
-        e: shape.matrix.e,
-        f: shape.matrix.f
-      };
+    shapeObjects.members.push(shapeJson);
+  });
 
-      shapeObjects.members.push(shapeJson);
-    });
-
-    document.getElementById('jsonOut').value = JSON.stringify(shapeObjects);
-  }
-});
+  return JSON.stringify(shapeObjects);
+};
 
 saveButton.addEventListener('click', function(event) {
-
   var request = new XMLHttpRequest();
-  request.open('POST', 'http://localhost:8080/api/composites', true);
+  request.open('POST', '/api/composites', true);
   request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-  request.send(JSON.stringify(sampleRequest));
+  request.send(record());
 });

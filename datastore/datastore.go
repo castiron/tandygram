@@ -10,18 +10,12 @@ import (
 	"os"
 )
 
-type Color struct {
-	R int `json:"r"`
-	G int `json:"g"`
-	B int `json:"b"`
-}
-
 type Member struct {
 	Id int `json:"id"`
 	Type string `json:"type"`
-	Degrees int `json:"degrees"`
-	Size int `json:"size"`
-	Color Color `json:"color"`
+	Degrees float64 `json:"degrees"`
+	Size float64 `json:"size"`
+	Color string `json:"color"`
 	E float64 `json:"e"`
 	F float64 `json:"f"`
 }
@@ -30,8 +24,8 @@ type Composite struct {
 	Id int
 	CreatedAt time.Time `json:omitempty`
 	Members []Member `json:"members"`
-	ClientId string `json:"clientId"`
 	Name string `json:"name"`
+	Layers []int `json:"layers"`
 }
 
 func (composite Composite) toMap() map[string]interface{} {

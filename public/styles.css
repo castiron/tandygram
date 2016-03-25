@@ -14,6 +14,11 @@ html, body {
 
 .tandy-draw, .tandy-view {
   width: 100vw;
-  min-height: 768px;
-  /* In production, this will be 100vh as well */
+  height: 100vh;
+}
+
+.save-button {
+  position: fixed;
+  bottom: 50px;
+  left: 50px;
 }
