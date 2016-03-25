@@ -3,7 +3,7 @@ package server
 import (
 	"net/http"
 	"log"
-	"github.com/castiron/tandygram-backend/datastore"
+	"github.com/castiron/tandygram/datastore"
 	"encoding/json"
 	"strconv"
 	"strings"
