@@ -12,7 +12,7 @@ html, body {
   margin: 0;
 }
 
-.tandy-draw {
+.tandy-draw, .tandy-view {
   width: 100vw;
   min-height: 768px;
   /* In production, this will be 100vh as well */

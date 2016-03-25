@@ -188,7 +188,7 @@ var sampleRequest = {"members":
 window.addEventListener('keyup', function(event) {
   if (event.keyCode == 71) {
     var shapeObjects = {
-      name: "Blake",
+      name: prompt(),
       client: "Mac",
       members: []
     };
