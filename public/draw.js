@@ -22,12 +22,17 @@ var colorSchemes = [
   'monochrome'
 ];
 
-var randomScheme = Math.floor(Math.random() * 8);
 
-colors = randomColor({
-  hue: colorSchemes[randomScheme],
-  count: 8
-});
+var randomizeColors = function() {
+  var randomScheme = Math.floor(Math.random() * 8);
+  colors = randomColor({
+    hue: colorSchemes[randomScheme],
+    count: 8
+  });
+};
+
+// Randomize colors to start
+randomizeColors();
 
 var observeActive = function(activeId){
   activeShape = undefined;
@@ -43,6 +48,13 @@ var observeActive = function(activeId){
       // one inside the parent
       shapeEl = shape.node;
       shapeEl.parentNode.appendChild(shapeEl);
+
+      // Get the layers without the active ID
+      layers = layers.filter(function(id) {
+        return id != activeId;
+      });
+      // And then push the active ID on the end
+      layers.push(activeId);
 
       activeShape = shape;
     } else {
@@ -80,6 +92,8 @@ shapes = [
     parallelogramA
 ];
 
+layers = [];
+
 var dragMove = function(dx,dy) {
   if(!rotating) {
     this.attr({
@@ -92,11 +106,16 @@ var dragStart = function() {
   this.data('origTransform', this.transform().local );
 };
 
+// For each shape, setup colors, add its ID to layers,
+// and then bind our draggin' function
 shapes.forEach(function(shape, index) {
   shape.id = index;
+  layers.push(shape.id);
+
   shape.attr({
     fill: colors[index]
   });
+
   shape.drag(dragMove, dragStart);
 });
 
@@ -127,69 +146,17 @@ function onRotate(event) {
     lastRotation = event.rotation;
     rotating = true;
   }
-
 }
-
-//keyboard events for rotating on desktop
-var rotateRightInterval = false;
-var rotateLeftInterval = false;
-
-document.addEventListener('keydown', function(event){
-  if (activeShape && event.keyCode == 39) {
-    if (!rotateRightInterval) {
-      rotateRightInterval = setInterval(function(){
-        rotate(s, activeShape, 1);
-      }, rotateSpeed);
-    }
-  } else if (activeShape && event.keyCode == 37) {
-    if (!rotateLeftInterval) {
-      rotateLeftInterval = setInterval(function(){
-        rotate(s, activeShape, -1);
-      }, rotateSpeed);
-    }
-  }
-});
-
-// Unset rotation so things don't spin out forever
-document.addEventListener('keyup', function(event){
-  if (event.keyCode == 39) {
-    clearInterval(rotateRightInterval);
-    rotateRightInterval = false;
-  } else if (event.keyCode == 37) {
-    clearInterval(rotateLeftInterval);
-    rotateLeftInterval = false;
-  }
-});
 
 // Simple saving
 var saveButton = document.querySelector('[data-button-save]');
-var sampleRequest = {"members":
-    [
-      {
-        "shape": 1,
-        "x": 200,
-        "y": 200,
-        "rotation": 1.0003,
-        "color": {"R": 24, "G": 25, "B": 26 }
-
-      }, {
-      "shape": 2,
-      "x": 400,
-      "y": 400,
-      "rotation": 0.045,
-      "color": {"R": 1, "G": 2, "B": 3 }
-
-    }
-    ],
-  "clientId": "MAC123123",
-  "name": "Lucas"
-};
 
 var record = function() {
   var shapeObjects = {
     name: prompt('Would you like to name or note your Tandygram?'),
     members: [],
-    layers: []
+    // Shape layers array
+    layers: layers
   };
 
   shapes.forEach(function(shape){
@@ -214,4 +181,10 @@ saveButton.addEventListener('click', function(event) {
   request.open('POST', '/api/composites', true);
   request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
   request.send(record());
+  randomizeColors();
+  shapes.forEach(function(shape, index) {
+    shape.attr({
+      fill: colors[index]
+    });
+  });
 });

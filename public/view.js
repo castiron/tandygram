@@ -4,22 +4,32 @@ var baseSize = 500;
 
 var savedShapes = [];
 
-var shapesRequest = new XMLHttpRequest();
-shapesRequest.open('GET', '/api/composites', true);
+var getShapes = function() {
+  var shapesRequest = new XMLHttpRequest();
+  shapesRequest.open('GET', '/api/composites', true);
 
-shapesRequest.onload = function(){
-  if (shapesRequest.status >= 200 && shapesRequest.status < 400) {
-    // Success!
-    savedShapes = JSON.parse(shapesRequest.responseText);
-    play(savedShapes, 4000, 2000);
-  } else {
-    // We reached our target server, but it returned an error
-    alert('error');
-  }
+  shapesRequest.onload = function(){
+    if (shapesRequest.status >= 200 && shapesRequest.status < 400) {
+      // Success!
+      savedShapes = JSON.parse(shapesRequest.responseText);
+      console.log(savedShapes);
+
+      if (savedShapes) {
+        play(savedShapes, 4000, 2000);
+      } else {
+        alert('No shapes saved yet! Go make some Tandys.');
+      }
+    } else {
+      // We reached our target server, but it returned an error
+      alert('We reached our target server, but it returned an error.');
+    }
+  };
+
+  shapesRequest.send();
 };
 
-shapesRequest.send();
-
+// Get Shapes on Load
+getShapes();
 
 // Rotation helper function
 var rotate = function(paper, element, degrees) {
@@ -61,18 +71,16 @@ shapes.forEach(function(shape, index) {
 animating = false;
 
 transition = function(nextSet, animationTime) {
-  //var orderTimer = setTimeout(function(){
-  //  nextSet.order.forEach(function(ordinal){
-  //    // Get the shapes dom node and make it the last
-  //    // one inside the parent
-  //    shapeEl = shapes[ordinal].node;
-  //    shapeEl.parentNode.appendChild(shapeEl);
-  //  });
-  //}, 200);
-
-  console.log(nextSet);
-
   if (!animating) {
+    var layerTimer = setTimeout(function(){
+      nextSet.layers.forEach(function(ordinal){
+        // Get the shapes dom node and make it the last
+        // one inside the parent
+        shapeEl = shapes[ordinal].node;
+        shapeEl.parentNode.appendChild(shapeEl);
+      });
+    }, 200);
+
     shapes.forEach(function(currentShape) {
       // Get the next shape in the set
       var nextShape = nextSet.members.filter(function(member){
@@ -83,9 +91,6 @@ transition = function(nextSet, animationTime) {
 
       // Clone shape to transform its matrix
       clone = currentShape;
-      console.log(currentShape.degrees, 'current');
-      console.log(nextShape.degrees, 'next');
-      console.log(nextShape.degrees - currentShape.degrees, 'difference');
       rotate(s, clone, nextShape.degrees - currentShape.degrees);
       currentShape.degrees = nextShape.degrees;
       clone.matrix.e = nextShape.e;
@@ -97,7 +102,7 @@ transition = function(nextSet, animationTime) {
         transform: clone.matrix,
         fill: nextShape.color
       }, animationTime, mina.bounce, function(){
-        //clearTimeout(orderTimer);
+        clearTimeout(layerTimer);
         animating = false;
       });
     });
@@ -114,13 +119,17 @@ window.addEventListener('keyup', function(event) {
 });
 
 play = function(playShapes, transitionTime, animationTime){
-  i = 0;
+  var i = 0;
   if (transitionTime > animationTime) {
-    setInterval(function(){
-      i ++;
-      if (i >= playShapes.length) i = 0;
-
-      transition(playShapes[i], animationTime);
+    var transitionInterval = setInterval(function(){
+      if (i < playShapes.length) {
+        transition(playShapes[i], animationTime);
+        i ++;
+      } else {
+        clearInterval(transitionInterval);
+        // Recursively get shapes without breaking the universe (please)
+        getShapes();
+      }
     }, transitionTime);
   } else {
     alert('You have to set a transition time that\'s longer than the animation time.');
