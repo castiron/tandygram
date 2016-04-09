@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>
+            Tandygram!
+        </title>
+
+        <link href='https://fonts.googleapis.com/css?family=Megrim|Roboto:300' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="styles.css"/>
+        <!-- multi-touch event firing helper for testing on desktop -->
+        <script src="lib/touch-emulator.js"></script>
+        <script> TouchEmulator(); </script>
+    </head>
+
+    <body>
+        <svg id="tandy-svg" class="tandy-draw"></svg>
+    
+        <!-- The Modal -->
+        <div class="modal" data-modal-content>
+
+          <!-- Modal content -->
+          <div class="modal-content">
+            <div href="#" class="tandy-logo-stacked"></div>
+            <span class="close" data-button-modal-close>&#10006;</span>
+            <p>Tandygram is a <a href="http://designweekportland.com" target="_blank">Design Week Portland</a> installation encouraging playfulness, shapliness, and creating under geometric constraints.  Designed, built, and executed by your business friends at <a href="http://www.castironcoding.com" target="_blank">Cast Iron Coding</a></p>
+            <a href="http://www.castironcoding.com" class="cic-logo"></a>
+          </div>
+
+        </div>
+        <footer class="page-footer">
+            <a href="#" class="tandy-logo" data-button-modal-open></a>
+            <button class="save-button" data-button-save>save</button>
+        </footer>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.4.1/snap.svg-min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.6/hammer.min.js"></script>
+        <script type="text/javascript" src="lib/random-color.js"></script>
+        <script type="text/javascript" src="lib/modal.js"></script>
+        <script type="text/javascript" src="shape-generators.js"></script>
+        <script type="text/javascript" src="draw.js"></script>
+    </body>
+</html>

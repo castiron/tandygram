@@ -22,6 +22,8 @@ var colorSchemes = [
   'monochrome'
 ];
 
+var color = [];
+
 
 var randomizeColors = function() {
   var randomScheme = Math.floor(Math.random() * 8);
@@ -148,6 +150,64 @@ function onRotate(event) {
   }
 }
 
+//color coordinating static elements
+var footer = document.querySelector('.page-footer');
+var tandyLogo = document.querySelector('.tandy-logo');
+var tandyLogoStacked = document.querySelector('.modal-content .tandy-logo-stacked');
+var modal = document.querySelector('.modal-content');
+var toColorize = [footer, tandyLogo, tandyLogoStacked, modal];
+
+var isTooLightYiq = function(hexColor) {
+  var r = parseInt(hexColor.substr(1,2),16);
+  var g = parseInt(hexColor.substr(3,2),16);
+  var b = parseInt(hexColor.substr(5,2),16);
+  var yiq = ((r*299)+(g*587)+(b*114))/1000;
+
+  return yiq >= 140;
+}
+
+var lightenDarkenColor = function(col, amt) {
+  var usePound = false;
+
+  if (col[0] == "#") {
+      col = col.slice(1);
+      usePound = true;
+  }
+
+  var num = parseInt(col,16);
+  var r = (num >> 16) + amt;
+
+  if (r > 255) r = 255;
+  else if  (r < 0) r = 0;
+
+  var b = ((num >> 8) & 0x00FF) + amt;
+
+  if (b > 255) b = 255;
+  else if  (b < 0) b = 0;
+
+  var g = (num & 0x0000FF) + amt;
+
+  if (g > 255) g = 255;
+  else if (g < 0) g = 0;
+
+  return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
+}
+
+var incidentalColorizer = function(el) {
+  if (colors.length) {
+    if (isTooLightYiq(colors[7])) {
+      el.style.backgroundColor = lightenDarkenColor(colors[7], -30);
+    } else {
+      el.style.backgroundColor = colors[7];
+    }
+  }
+}
+
+toColorize.forEach(function(el) {
+  incidentalColorizer(el);
+});
+
+
 // Simple saving
 var saveButton = document.querySelector('[data-button-save]');
 
@@ -186,5 +246,9 @@ saveButton.addEventListener('click', function(event) {
     shape.attr({
       fill: colors[index]
     });
+  });
+  //more color styling when the color scheme changes
+  toColorize.forEach(function(el) {
+    incidentalColorizer(el);
   });
 });
