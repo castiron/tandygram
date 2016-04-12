@@ -4,6 +4,9 @@ var baseSize = 500;
 
 var savedShapes = [];
 
+// Get title element in the DOM
+var tandyTitle = document.getElementById('tandy-title');
+
 var getShapes = function() {
   var shapesRequest = new XMLHttpRequest();
   shapesRequest.open('GET', '/api/composites', true);
@@ -72,14 +75,22 @@ animating = false;
 
 transition = function(nextSet, animationTime) {
   if (!animating) {
+    // Fade the title out immediately
+    tandyTitle.classList.add('fade-out');
+
     var layerTimer = setTimeout(function(){
+      // Fade in the title
+      // Change the title and fade it in
+      tandyTitle.childNodes[0].nodeValue = nextSet.name;
+      tandyTitle.classList.remove('fade-out');
+
       nextSet.layers.forEach(function(ordinal){
         // Get the shapes dom node and make it the last
         // one inside the parent
         shapeEl = shapes[ordinal].node;
         shapeEl.parentNode.appendChild(shapeEl);
       });
-    }, 200);
+    }, animationTime/5);
 
     shapes.forEach(function(currentShape) {
       // Get the next shape in the set
