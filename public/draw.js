@@ -40,7 +40,7 @@ var observeActive = function(activeId){
   activeShape = undefined;
 
   shapes.forEach(function(shape) {
-    if (shape.id === activeId) {
+    if (shape.id === activeId && !rotating) {
       shape.attr({
         stroke: colors[7],
         strokeWidth: baseSize/150
@@ -126,7 +126,6 @@ var tandyShape = document.getElementById('tandy-svg');
 var mc = new Hammer.Manager(tandyShape);
 var lastRotation = 0;
 var rotating = false;
-mc.add(new Hammer.Pan({ threshold: 1, pointers: 0 })).recognizeWith(mc.get('pan'));
 mc.add(new Hammer.Rotate({ threshold: 0 }));
 
 mc.on("rotate", onRotate);
@@ -150,7 +149,7 @@ function onRotate(event) {
   }
 }
 
-//color coordinating static elements
+//color coordinating static elements of the UI
 var footer = document.querySelector('.page-footer');
 var tandyLogo = document.querySelector('.tandy-logo');
 var tandyLogoStacked = document.querySelector('.modal-content .tandy-logo-stacked');
@@ -203,6 +202,7 @@ var incidentalColorizer = function(el) {
   }
 }
 
+//setting colors of UI at start
 toColorize.forEach(function(el) {
   incidentalColorizer(el);
 });
@@ -247,7 +247,7 @@ saveButton.addEventListener('click', function(event) {
       fill: colors[index]
     });
   });
-  //more color styling when the color scheme changes
+  //setting colors of UI after scheme changes
   toColorize.forEach(function(el) {
     incidentalColorizer(el);
   });

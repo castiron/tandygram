@@ -102,10 +102,10 @@ html, body {
 
 .close {
   position: absolute;
-  top: 13px;
-  right: 20px;
-  color: inherit;
-  font-size: 32px;
+  top: 18px;
+  right: 18px;
+  color: #ffffff;
+  font-size: 26px;
   text-shadow: 2px 1px rgba(136, 136, 136, 0.6);
   transition: text-shadow 0.2s;
 }
