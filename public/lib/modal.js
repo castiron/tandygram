@@ -1,7 +1,7 @@
 var modal = document.querySelector('[data-modal-content]');
 var buttonOpen = document.querySelector('[data-button-modal-open]');
 var buttonClose = document.querySelector('[data-button-modal-close]');
-console.log(buttonOpen);
+
 // When the user clicks on the button, open the modal 
 buttonOpen.onclick = function() {
 	event.preventDefault();

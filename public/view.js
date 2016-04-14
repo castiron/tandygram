@@ -15,7 +15,6 @@ var getShapes = function() {
     if (shapesRequest.status >= 200 && shapesRequest.status < 400) {
       // Success!
       savedShapes = JSON.parse(shapesRequest.responseText);
-      console.log(savedShapes);
 
       if (savedShapes) {
         play(savedShapes, 4000, 2000);

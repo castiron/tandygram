@@ -134,7 +134,6 @@ mc.on("rotateend", function(){
 });
 
 function onRotate(event) {
-  console.log(lastRotation, deltaRotation);
   if (rotating && activeShape) {
     var deltaRotation = Math.abs(event.rotation - lastRotation);
     if (event.rotation > lastRotation) {
