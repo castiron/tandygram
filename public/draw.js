@@ -2,7 +2,7 @@
 
 // Initial application configuration
 // Base size of our tangram
-var baseSize = 500;
+var baseSize = 430;
 // Speed of rotation (higher is slower)
 var rotateSpeed = 8;
 
@@ -76,13 +76,21 @@ var rotate = function(paper, element, degrees) {
 
 var s = Snap("#tandy-svg");
 
-var rightTriA = rightTriangle(s, 0, 0, baseSize);
-var rightTriB = rightTriangle(s, 0, 0, baseSize);
-var rightTriC = rightTriangle(s, 0, 0, baseSize * (Math.sqrt(2) / 2));
-var rightTriD = rightTriangle(s, 0, 0, baseSize / 2);
-var rightTriE = rightTriangle(s, 0, 0, baseSize / 2 );
-var squareA = square(s, 0, 0, baseSize * (Math.sqrt(2) / 4));
-var parallelogramA = parallelogram(s, 0, 0, baseSize / 2);
+var rightTriA = rightTriangle(s, baseSize * 0.63, baseSize * 0.352, baseSize); //left big
+var rightTriB = rightTriangle(s, baseSize * 0.964, baseSize * 0.015, baseSize); //top big
+var rightTriC = rightTriangle(s, baseSize * 1.3697, baseSize * 0.826, baseSize * (Math.sqrt(2) / 2)); //right medium
+var rightTriD = rightTriangle(s, baseSize * 1.083, baseSize * 0.756, baseSize / 2); //middle small
+var rightTriE = rightTriangle(s, baseSize * 1.503, baseSize * 0.334, baseSize / 2 ); //right small
+var squareA = square(s, baseSize * 1.275, baseSize * 0.645, baseSize * (Math.sqrt(2) / 4)); 
+var parallelogramA = parallelogram(s, baseSize * 0.947, baseSize * 1.078, baseSize / 2);
+
+//set initial rotation for traditional tandy layout
+rotate(s, rightTriA, 225);
+rotate(s, rightTriB, 315);
+rotate(s, rightTriC, 270);
+rotate(s, rightTriD, 135);
+rotate(s, rightTriE, 45);
+rotate(s, squareA, 45);
 
 shapes = [
     rightTriA,
@@ -251,3 +259,9 @@ saveButton.addEventListener('click', function(event) {
     incidentalColorizer(el);
   });
 });
+
+var resetButton = document.querySelector('[data-button-reset]');
+resetButton.addEventListener('click', function(event) {
+  document.location.reload(true);
+});
+

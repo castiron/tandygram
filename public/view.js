@@ -1,6 +1,6 @@
 // Tandygram Viewer
 // Base size of our tangram, doesn't need to be the same
-var baseSize = 500;
+var baseSize = 430;
 
 var savedShapes = [];
 
@@ -41,19 +41,27 @@ var rotate = function(paper, element, degrees) {
 // Instantiate initial colorless shapes
 var s = Snap("#tandy-svg");
 
-var rightTriA = rightTriangle(s, 0, 0, baseSize);
+var rightTriA = rightTriangle(s, baseSize * 0.63, baseSize * 0.352, baseSize); //left big
+var rightTriB = rightTriangle(s, baseSize * 0.964, baseSize * 0.015, baseSize); //top big
+var rightTriC = rightTriangle(s, baseSize * 1.3697, baseSize * 0.826, baseSize * (Math.sqrt(2) / 2)); //right medium
+var rightTriD = rightTriangle(s, baseSize * 1.083, baseSize * 0.756, baseSize / 2); //middle small
+var rightTriE = rightTriangle(s, baseSize * 1.503, baseSize * 0.334, baseSize / 2 ); //right small
+var squareA = square(s, baseSize * 1.275, baseSize * 0.645, baseSize * (Math.sqrt(2) / 4)); 
+var parallelogramA = parallelogram(s, baseSize * 0.947, baseSize * 1.078, baseSize / 2);
 
-var rightTriB = rightTriangle(s, 0, 0, baseSize);
+var intitRotate = function(paper, element, degrees) {
+  element.matrix.rotate(degrees, element.centerX, element.centerY);
+  element.degrees += degrees;
+  element.transform(element.matrix);
+};
 
-var rightTriC = rightTriangle(s, 0, 0, baseSize * (Math.sqrt(2) / 2));
-
-var rightTriD = rightTriangle(s, 0, 0, baseSize / 2);
-
-var rightTriE = rightTriangle(s, 0, 0, baseSize / 2 );
-
-var squareA = square(s, 0, 0, baseSize * (Math.sqrt(2) / 4));
-
-var parallelogramA = parallelogram(s, 0, 0, baseSize / 2);
+//set initial rotation for traditional tandy layout
+intitRotate(s, rightTriA, 225);
+intitRotate(s, rightTriB, 315);
+intitRotate(s, rightTriC, 270);
+intitRotate(s, rightTriD, 135);
+intitRotate(s, rightTriE, 45);
+intitRotate(s, squareA, 45);
 
 // Build shapes array and assign ids by index just like draw view
 shapes = [

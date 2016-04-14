@@ -61,17 +61,17 @@ html, body {
 .page-footer {
   position: fixed;
   display: block;
+  text-align: center;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 10px 50px;
-  height: 68px;
+  padding: 6px 30px;
+  height: 58px;
 }
 
 .tandy-logo {
   display: inline-block;
-  float: left;
-  margin-top: 4px;
+  margin-top: 3px;
   width: 325px;
   height: 100%;
   background-image: url('tandyLogo.png');
@@ -117,23 +117,29 @@ html, body {
   text-shadow: 0px 0px rgba(136, 136, 136, 0.1);
 }
 
-.save-button {
-  float: right;
-  margin-top: 8px;
-  margin-left: 20px;
+.button {
   vertical-align: bottom;
-  font-family: 'Megrim', cursive;
-  font-size: 30px;
-  color: #ffffff;
-  background: transparent;
-  border: none;
   -webkit-user-select: none;
+  margin-top: 3px;
+  background: transparent;
+  color: #ffffff;
+  border: none;
+  font-family: 'Megrim', cursive;
+  font-size: 28px;
   text-shadow: 2px 1px rgba(136, 136, 136, 0.6);
   transition: text-shadow 0.2s;
 }
 
-.save-button:active {
+.button:active {
   text-shadow: 0px 0px rgba(136, 136, 136, 0.1);
+}
+
+.save-button {
+  float: right;
+}
+
+.reset-button {
+  float: left;
 }
 
 /* The Modal */
