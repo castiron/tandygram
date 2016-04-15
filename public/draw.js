@@ -217,7 +217,6 @@ toColorize.forEach(function(el) {
 
 // Simple saving
 var saveButton = document.querySelector('[data-button-save]');
-// var saveSoundLoop = document.querySelector('[data-audio-save-loop]');
 var saveSoundLoop = new Audio('jingleLoop.mp3');
 saveSoundLoop.preload = "auto";
 var saveSoundTag = new Audio('jingleTag.mp3');
