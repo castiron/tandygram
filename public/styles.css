@@ -31,7 +31,7 @@ html, body {
 
 .tandy-draw {
   width: 100vw;
-  height: calc(100vh - 68px);
+  height: calc(100vh - 58px);
 }
 
 .tandy-view {

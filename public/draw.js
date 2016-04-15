@@ -170,7 +170,7 @@ var isTooLightYiq = function(hexColor) {
   var yiq = ((r*299)+(g*587)+(b*114))/1000;
 
   return yiq >= 140;
-}
+};
 
 var lightenDarkenColor = function(col, amt) {
   var usePound = false;
@@ -197,7 +197,7 @@ var lightenDarkenColor = function(col, amt) {
   else if (g < 0) g = 0;
 
   return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
-}
+};
 
 var incidentalColorizer = function(el) {
   if (colors.length) {
@@ -207,7 +207,7 @@ var incidentalColorizer = function(el) {
       el.style.backgroundColor = colors[7];
     }
   }
-}
+};
 
 //setting colors of UI at start
 toColorize.forEach(function(el) {
@@ -243,6 +243,8 @@ var record = function() {
 
     shapeObjects.members.push(shapeJson);
   });
+
+  alert('Tandy! Thanks so much. Now pass the iPad on to someone else, or make another.');
 
   return JSON.stringify(shapeObjects);
 };
