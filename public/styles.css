@@ -175,3 +175,7 @@ html, body {
 .modal-content a {
   color: inherit;
 }
+
+audio {
+  display: none;
+}
