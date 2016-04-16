@@ -242,7 +242,7 @@ var record = function() {
     shapeObjects.members.push(shapeJson);
   });
 
-  alert('Tandy! Thanks so much. Now pass the iPad on to someone else, or make another.');
+  // alert('Tandy! Thanks so much. Now pass the iPad on to someone else, or make another.');
 
   return JSON.stringify(shapeObjects);
 };
@@ -271,3 +271,4 @@ resetButton.addEventListener('click', function(event) {
   document.location.reload(true);
 });
 
+saveJingle.play();
