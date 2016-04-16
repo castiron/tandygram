@@ -217,10 +217,8 @@ toColorize.forEach(function(el) {
 
 // Simple saving
 var saveButton = document.querySelector('[data-button-save]');
-var saveSoundLoop = new Audio('jingleLoop.mp3');
-saveSoundLoop.preload = "auto";
-var saveSoundTag = new Audio('jingleTag.mp3');
-saveSoundTag.preload = "auto";
+var saveJingle = new Audio('jingle.mp3');
+saveJingle.preload = "auto";
 
 var record = function() {
   var shapeObjects = {
@@ -250,26 +248,22 @@ var record = function() {
 };
 
 saveButton.addEventListener('click', function(event) {
-  //play sound effect loop once when save modal opens (was gonna loop while the modal was open but it's kinda annoying)
-  saveSoundLoop.play();
-  setTimeout(function() {
-    var request = new XMLHttpRequest();
-    request.open('POST', '/api/composites', true);
-    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-    request.send(record());
-    randomizeColors();
-    shapes.forEach(function(shape, index) {
-      shape.attr({
-        fill: colors[index]
-      });
+  var request = new XMLHttpRequest();
+  request.open('POST', '/api/composites', true);
+  request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+  request.send(record());
+  //play sound effect when save modal closes
+  saveJingle.play();
+  randomizeColors();
+  shapes.forEach(function(shape, index) {
+    shape.attr({
+      fill: colors[index]
     });
-    //setting colors of UI after scheme changes
-    toColorize.forEach(function(el) {
-      incidentalColorizer(el);
-    });
-    //play save sound effect tag
-    saveSoundTag.play(); 
-  }, 500);
+  });
+  //setting colors of UI after scheme changes
+  toColorize.forEach(function(el) {
+    incidentalColorizer(el);
+  });
 });
 
 var resetButton = document.querySelector('[data-button-reset]');
